@@ -15,6 +15,9 @@ export default function SignUp() {
   const [pwd, setPwd] = useState('')
   const [validPwd, setValidPwd] = useState(false);
 
+  const [match, setMatch] = useState('')
+  const [validMatch, setValidMatch] = useState('')
+
 
   useEffect(() => {
     userRef.current.focus()
@@ -24,9 +27,11 @@ export default function SignUp() {
     setValidName(USER_REGEX.test(user))
   }, [user])
 
+  
   useEffect(() => {
-    setValidPwd(PWD_REGEX.test(pwd))
-  }, [pwd])
+    setValidPwd(PWD_REGEX.test(pwd));
+    setValidMatch(pwd === match);
+}, [pwd, match])
 
 
   return (
@@ -79,6 +84,7 @@ export default function SignUp() {
             type="password"
             id="password"
             ref={userRef}
+            value={pwd}
             autoComplete="off"
             required
             onChange={(e) => setPwd(e.target.value)}
@@ -91,6 +97,35 @@ export default function SignUp() {
             Must include uppercase and lowercase letters, a number and a special character.<br />
             Allowed special characters:
             <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
+          </p>
+
+
+          <label className={'text-xl py-2 text-white flex items-center'} htmlFor='Confirmpassword'>
+            ConfirmPassword
+
+            <span className={validMatch && match ? 'block' : 'hidden'}>
+              <AiOutlineCheck />
+            </span>
+
+
+            <span className={validMatch || !match ? 'hidden' : 'block'}>
+              <AiOutlineClose />
+            </span>
+          </label>
+          <input
+            type="password"
+            id="Confirmpassword"
+            ref={userRef}
+            value={match}
+            autoComplete="off"
+            required
+            onChange={(e) => setMatch(e.target.value)}
+            aria-invalid={validMatch ? "false" : "true"}
+            aria-describedby="aria-note-pass"
+          />
+
+          <p id="aria-note-pass" className={match && !validMatch ? 'text-center pt-2 block' : 'hidden'}>
+            Must match the first password input field.
           </p>
         </form>
       </section>
