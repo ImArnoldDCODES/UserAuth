@@ -127,6 +127,9 @@ export default function SignUp() {
           <p id="aria-note-pass" className={match && !validMatch ? 'text-center pt-2 block' : 'hidden'}>
             Must match the first password input field.
           </p>
+          <button className={validName && validPwd && validMatch ? "bg-blue-500 p-3 rounded-lg mt-5 block" : "hidden"}>
+            Sign Up
+          </button>
         </form>
       </section>
     </div>
